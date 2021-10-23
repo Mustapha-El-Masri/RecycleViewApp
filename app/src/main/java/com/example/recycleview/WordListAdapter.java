@@ -13,7 +13,8 @@ import java.util.LinkedList;
 
 public class WordListAdapter extends
         RecyclerView.Adapter<WordListAdapter.WordViewHolder>  {
-    class WordViewHolder extends RecyclerView.ViewHolder {
+    class WordViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
 
 
     public final TextView wordItemView;
@@ -24,7 +25,23 @@ public class WordListAdapter extends
         super(itemView);
         wordItemView = itemView.findViewById(R.id.word);
         this.mAdapter = adapter;
-    }}
+        itemView.setOnClickListener(this);
+    }
+
+        @Override
+        public void onClick(View view) {
+        // Get the position of the item that was clicked.
+            int mPosition = getLayoutPosition();
+// Use that to access the affected item in mWordList.
+            String element = mWordList.get(mPosition);
+// Change the word in the mWordList.
+            mWordList.set(mPosition, "Clicked! " + element);
+// Notify the adapter, that the data has changed so it can
+// update the RecyclerView to display the data.
+            mAdapter.notifyDataSetChanged();
+
+        }
+    }
     private LayoutInflater mInflater;
     private final LinkedList<String> mWordList;
 
